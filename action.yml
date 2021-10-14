@@ -3,7 +3,8 @@ description: 'Fails if any differences are detected in the target folder'
 inputs:
   path:
     description: 'The path to check'
-    required: true
+    required: false
+    default: ./
   ignore-whitespace:
     description: 'If true, ignore whitespace differences'
     required: false
