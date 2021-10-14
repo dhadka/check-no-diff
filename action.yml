@@ -19,6 +19,8 @@ runs:
         if [ "${{ inputs.ignore-eol }}" = "true" ]; then
           args=($args "--ignore-all-space")
         fi
+        
+        args=($args "--")
       
         if [ "$(git diff "$args" "$path" | wc -l)" -gt "0" ]; then
           echo "Detected changes in $path.  See details below:"
