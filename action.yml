@@ -1,0 +1,28 @@
+name: 'check-no-diff'
+description: 'Fails if any differences are detected in the target folder'
+inputs:
+  path:
+    description: 'The path to check'
+    required: true
+  ignore-whitespace:
+    description: 'If true, ignore whitespace differences'
+    required: false
+    default: true
+runs:
+  using: "composite"
+  steps:
+    - name: Check for differences in ${{ inputs.path }}
+      run: |
+        args=()
+        path="${{ inputs.path }}"
+        
+        if [ "${{ inputs.ignore-eol }}" = "true" ]; then
+          args=($args "--ignore-all-space")
+        fi
+      
+        if [ "$(git diff "$args" "$path" | wc -l)" -gt "0" ]; then
+          echo "Detected changes in $path.  See details below:"
+          git diff "$args" "$path"
+          exit 1
+        fi
+      shell: bash
